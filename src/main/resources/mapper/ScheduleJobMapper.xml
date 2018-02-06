@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.banmatrip.schedule.repository.ScheduleJobMapper" >
+    <resultMap id="BaseResultMap" type="com.banmatrip.schedule.domain.ScheduleJob">
+        <result column="ID" property="Id" jdbcType="VARCHAR"/>
+        <result column="JOB_NAME" property="jobName" jdbcType="VARCHAR"/>
+        <result column="JOB_STATUS" property="jobStatus" jdbcType="VARCHAR"/>
+        <result column="CRON_EXPRESSION" property="cronExpression" jdbcType="VARCHAR"/>
+        <result column="CONCURRENT" property="concurrent" jdbcType="VARCHAR"/>
+        <result column="DESCRIPTION" property="description" jdbcType="VARCHAR"/>
+        <result column="JOB_GROUP" property="jobGroup" jdbcType="VARCHAR"/>
+        <result column="TARGET_OBJECT" property="targetObject" jdbcType="VARCHAR"/>
+        <result column="TARGET_METHOD" property="targetMethod" jdbcType="VARCHAR"/>
+        <result column="IS_SPRING_BEAN" property="isSpringBean" jdbcType="VARCHAR"/>
+        <result column="CLAZZ" property="clazz" jdbcType="VARCHAR"/>
+        <result column="CHILD_JOBS" property="childJobs" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getScheduleJobs" resultMap="BaseResultMap"  >
+        SELECT ID,JOB_NAME,JOB_STATUS,CRON_EXPRESSION,CONCURRENT,DESCRIPTION,JOB_GROUP,TARGET_OBJECT,TARGET_METHOD,IS_SPRING_BEAN,CLAZZ,CHILD_JOBS FROM task_schedulejob
+    </select>
+
+    <select id="findbyId" resultMap="BaseResultMap"  parameterType="java.lang.String">
+        SELECT ID,JOB_NAME,JOB_STATUS,CRON_EXPRESSION,CONCURRENT,DESCRIPTION,JOB_GROUP,TARGET_OBJECT,TARGET_METHOD,IS_SPRING_BEAN,CLAZZ,CHILD_JOBS FROM task_schedulejob where ID =#{id}
+    </select>
+
+    <update id="update" parameterType="com.banmatrip.schedule.domain.ScheduleJob">
+        UPDATE task_schedulejob
+        <set>
+            <if test = "jobName != null">
+                JOB_NAME = #{jobName},
+            </if>
+            <if test = "jobGroup != null">
+                JOB_GROUP = #{jobGroup},
+            </if>
+            <if test = "jobStatus != null">
+                JOB_STATUS = #{jobStatus},
+            </if>
+            <if test = "cronExpression != null">
+                CRON_EXPRESSION = #{cronExpression},
+            </if>
+            <if test = "description != null">
+                DESCRIPTION = #{description},
+            </if>
+            <if test = "targetMethod != null">
+                TARGET_METHOD = #{targetMethod},
+            </if>
+            <if test = "isSpringBean != null">
+                IS_SPRING_BEAN = #{isSpringBean},
+            </if>
+            <if test = "clazz != null">
+                CLAZZ = #{clazz},
+            </if>
+            <if test = "concurrent != null">
+                CONCURRENT = #{concurrent},
+            </if>
+            <if test = "childJobs != null">
+                CHILD_JOBS = #{childJobs}
+            </if>
+        </set>
+        where ID = #{Id}
+        <if test = "jobName != null">
+            AND JOB_NAME = #{jobName}
+        </if>
+    </update>
+
+    <delete id="deletebyId" parameterType="java.lang.String">
+        DELETE FROM task_schedulejob    where ID= #{id}
+    </delete>
+
+    <insert id="insertSelective" parameterType="com.banmatrip.schedule.domain.ScheduleJob" >
+        insert into task_schedulejob
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="Id != null" >
+                ID,
+            </if>
+            <if test="jobName != null" >
+                JOB_NAME,
+            </if>
+            <if test="jobStatus != null" >
+                JOB_STATUS,
+            </if>
+            <if test="cronExpression != null" >
+                CRON_EXPRESSION,
+            </if>
+            <if test="concurrent != null" >
+                CONCURRENT,
+            </if>
+            <if test="description != null" >
+                DESCRIPTION,
+            </if>
+            <if test="jobGroup != null" >
+                JOB_GROUP,
+            </if>
+            <if test="targetObject != null" >
+                TARGET_OBJECT,
+            </if>
+            <if test="targetMethod != null" >
+                TARGET_METHOD,
+            </if>
+            <if test="isSpringBean != null" >
+                IS_SPRING_BEAN,
+            </if>
+            <if test="clazz != null" >
+                CLAZZ,
+            </if>
+            <if test="childJobs != null" >
+                CHILD_JOBS,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="jobName != null" >
+                #{jobName,jdbcType=VARCHAR},
+            </if>
+            <if test="jobStatus != null" >
+                #{jobStatus,jdbcType=CHAR},
+            </if>
+            <if test="cronExpression != null" >
+                #{cronExpression,jdbcType=VARCHAR},
+            </if>
+            <if test="concurrent != null" >
+                #{concurrent,jdbcType=CHAR},
+            </if>
+            <if test="description != null" >
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="jobGroup != null" >
+                #{jobGroup,jdbcType=VARCHAR},
+            </if>
+            <if test="targetObject != null" >
+                #{targetObject,jdbcType=VARCHAR},
+            </if>
+            <if test="targetMethod != null" >
+                #{targetMethod,jdbcType=VARCHAR},
+            </if>
+            <if test="isSpringBean != null" >
+                #{isSpringBean,jdbcType=CHAR},
+            </if>
+            <if test="clazz != null" >
+                #{clazz,jdbcType=VARCHAR},
+            </if>
+            <if test="childJobs != null" >
+                #{childJobs,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+</mapper>
